@@ -32,8 +32,8 @@ jobs:
       - name: Get UBI version
         run: |
           echo "UBI_VERSION=$(grep FROM Dockerfile | cut -d: -f2 -)" >> $GITHUB_ENV
-          echo "UBI_VERSION_MINOR=$(echo "${UBI_VERSION}" | cut -d- -f1 -) >> $GITHUB_ENV
-          echo "UBI_VERSION_MAJOR=$(echo "${UBI_VERSION}" | cut -d. -f1 -) >> $GITHUB_ENV
+          echo "UBI_VERSION_MINOR=$(echo "${UBI_VERSION}" | cut -d- -f1 -)" >> $GITHUB_ENV
+          echo "UBI_VERSION_MAJOR=$(echo "${UBI_VERSION}" | cut -d. -f1 -)" >> $GITHUB_ENV
 
       # Build
       - name: Build image
