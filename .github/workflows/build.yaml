@@ -32,6 +32,8 @@ jobs:
       - name: Get UBI version
         run: |
           echo "UBI_VERSION=$(grep FROM Dockerfile | cut -d: -f2 -)" >> $GITHUB_ENV
+          echo "UBI_VERSION_MINOR=$(echo "${UBI_VERSION}" | cut -d- -f1 -) >> $GITHUB_ENV
+          echo "UBI_VERSION_MAJOR=$(echo "${UBI_VERSION}" | cut -d. -f1 -) >> $GITHUB_ENV
 
       # Build
       - name: Build image
@@ -46,5 +48,13 @@ jobs:
             --label org.opencontainers.image.description="UBI with jq installed, nothing more." \
             -t "${IMAGE_REPOSITORY}:${UBI_VERSION}"
 
+      - name: Tag image
+        run: |
+          sudo podman tag "${IMAGE_REPOSITORY}:${UBI_VERSION}" "${IMAGE_REPOSITORY}:${UBI_VERSION_MINOR}"
+          sudo podman tag "${IMAGE_REPOSITORY}:${UBI_VERSION}" "${IMAGE_REPOSITORY}:${UBI_VERSION_MAJOR}"
+
       - name: Push image
-        run: sudo podman push "${IMAGE_REPOSITORY}:${UBI_VERSION}"
+        run: |
+          sudo podman push "${IMAGE_REPOSITORY}:${UBI_VERSION}"
+          sudo podman push "${IMAGE_REPOSITORY}:${UBI_VERSION_MINOR}"
+          sudo podman push "${IMAGE_REPOSITORY}:${UBI_VERSION_MAJOR}"
