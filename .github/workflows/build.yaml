@@ -31,7 +31,7 @@ jobs:
       # Get UBI version
       - name: Get UBI version
         run: |
-          UBI_VERSION=$(grep FROM Dockerfile | cut -d: -f2 -)"
+          UBI_VERSION="$(grep FROM Dockerfile | cut -d: -f2 -)"
 
           echo "UBI_VERSION=${UBI_VERSION}" >> $GITHUB_ENV
           echo "UBI_VERSION_MINOR=$(echo "${UBI_VERSION}" | cut -d- -f1 -)" >> $GITHUB_ENV
